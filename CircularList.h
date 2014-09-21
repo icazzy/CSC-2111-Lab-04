@@ -75,9 +75,9 @@ DoubleNode<T>* CircularList<T>::find(int index)
    else
    {
         cout << "index: " << index << endl;
-        dist_prev = (sze - loc_pos + index);  //distance without the bridge (prev refs, negative)
+        dist_prev = (sze - loc_pos - index);  //distance without the bridge (prev refs, negative)
         cout << "dist_next (else): " << dist_next << endl;
-        dist_next = (sze - loc_pos - index);  //distance using the bridge (next refs, positive)
+        dist_next = (sze - loc_pos + index);  //distance using the bridge (next refs, positive)
         cout << "dist_prev (else): " << dist_prev << endl;
    }
 
@@ -91,7 +91,7 @@ DoubleNode<T>* CircularList<T>::find(int index)
    cout << "dist2: " << dist2 << endl;
    if (dist1 < dist2)
    {
-      min_dist = (-1*dist1);
+      min_dist = dist1;
       cout << "negative: " << min_dist << endl;
       cout << endl;
    }
@@ -161,10 +161,10 @@ void CircularList<T>::remove(int index)
    
    if (index >= 1 && index <= sze) 
    {
+      DoubleNode<T>* prev = find(index);
 
       if (sze == 1) //special case
       {
-         DoubleNode<T>* prev = find(1);
          DoubleNode<T>* curr = prev->getNext();
          curr->setPrev(NULL);
          loc = curr;    
@@ -172,7 +172,7 @@ void CircularList<T>::remove(int index)
          curr->setPrev(NULL);
          curr->setNext(NULL);
          
-         delete curr;
+         //delete curr;
          loc = NULL;
          loc_pos = 0;
 
@@ -181,7 +181,6 @@ void CircularList<T>::remove(int index)
       else
       {
          //use local variables
-         DoubleNode<T>* prev = find(index);
          DoubleNode<T>* curr = prev->getNext();
          DoubleNode<T>* after = curr->getNext();
          prev->setNext(after);
@@ -190,7 +189,7 @@ void CircularList<T>::remove(int index)
          curr->setPrev(NULL);
          curr->setNext(NULL);
 
-         delete curr;
+         //delete curr;
 
       }
       sze--;
