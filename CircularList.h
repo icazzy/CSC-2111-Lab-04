@@ -70,14 +70,14 @@ DoubleNode<T>* CircularList<T>::find(int index)
         cout << "loc_pos: " << loc_pos << endl;
         dist_next = (sze - loc_pos + index);  //distance without the bridge (next refs, positive)
         cout << "dist_next (if): " << dist_next << endl;
-        dist_prev = (sze - loc_pos - index);  //distance using the bridge (prev refs, negative)
+        dist_prev = (sze + loc_pos - index);  //distance using the bridge (prev refs, negative)
         cout << "dist_prev (if): " << dist_prev << endl;
    }
    else
    {
         cout << "index: " << index << endl;
         cout << "loc_pos: " << loc_pos << endl;
-        dist_prev = (sze - loc_pos - index);  //distance without the bridge (prev refs, negative)
+        dist_prev = (sze + loc_pos - index);  //distance without the bridge (prev refs, negative)
         cout << "dist_next (else): " << dist_next << endl;
         dist_next = (sze - loc_pos + index);  //distance using the bridge (next refs, positive)
         cout << "dist_prev (else): " << dist_prev << endl;
@@ -91,13 +91,14 @@ DoubleNode<T>* CircularList<T>::find(int index)
    cout << "dist1: " << dist1 << endl;
    int dist2 = abs(dist_next - index); //next values
    cout << "dist2: " << dist2 << endl;
-   if (dist1 < dist2)
+   
+   if (dist1 < dist2) // prev distance is smaller
    {
       min_dist = dist1;
       cout << "negative: " << min_dist << endl;
       cout << endl;
    }
-   else
+   else // next distance is smaller
    {
       min_dist = dist2;
       cout << "positive: " << min_dist << endl;
@@ -163,22 +164,21 @@ void CircularList<T>::remove(int index)
    
    if (index >= 1 && index <= sze) 
    {
+      DoubleNode<T>* where = loc;
       DoubleNode<T>* prev = find(index);
 
       if (sze == 1) //special case
       {
          DoubleNode<T>* curr = prev->getNext();
-         curr->setPrev(NULL);
-         loc = curr;    
+         prev->setNext(NULL);
+         where = curr;    
          loc_pos = 1;    
-         curr->setPrev(NULL);
-         curr->setNext(NULL);
+         //curr->setPrev(NULL);
+         //curr->setNext(NULL);
          
          //delete curr;
-         loc = NULL;
+         where = NULL;
          loc_pos = 0;
-
-
       }
       else
       {
@@ -186,13 +186,12 @@ void CircularList<T>::remove(int index)
          DoubleNode<T>* curr = prev->getNext();
          DoubleNode<T>* after = curr->getNext();
          prev->setNext(after);
-         loc = curr;
+         where = curr;
          loc_pos = index;
          //curr->setPrev(NULL);
          //curr->setNext(NULL);
 
          //delete curr;
-
       }
       sze--;
    } 
