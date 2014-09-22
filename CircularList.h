@@ -10,9 +10,6 @@
 #include "Text.h"
 using CSC2110::String;
 
-#include <iostream>
-using namespace std;
-
 template < class T >
 class CircularList : public Drawable
 {
@@ -66,21 +63,17 @@ DoubleNode<T>* CircularList<T>::find(int index)
  
    if (index >= loc_pos)
    {
-        cout << "index: " << index << endl;
-        cout << "loc_pos: " << loc_pos << endl;
-        dist_next = (sze - (loc_pos + index));  //distance without the bridge (next refs, positive)
-        cout << "dist_next (if): " << dist_next << endl;
-        dist_prev = (sze - (loc_pos - index));  //distance using the bridge (prev refs, negative)
-        cout << "dist_prev (if): " << dist_prev << endl;
+        //distance without the bridge (next refs, positive)
+        dist_next = (loc_pos + index);
+        //distance using the bridge (prev refs, negative)
+        dist_prev = (loc_pos - index);
    }
    else
    {
-        cout << "index: " << index << endl;
-        cout << "loc_pos: " << loc_pos << endl;
-        dist_prev = (sze - (loc_pos - index));  //distance without the bridge (prev refs, negative)
-        cout << "dist_next (else): " << dist_next << endl;
-        dist_next = (sze - (loc_pos + index));  //distance using the bridge (next refs, positive)
-        cout << "dist_prev (else): " << dist_prev << endl;
+        //distance without the bridge (prev refs, negative)
+        dist_prev = (loc_pos + index);
+        //distance using the bridge (next refs, positive)
+        dist_next = (loc_pos - index);
    }
 
    //DO THIS which distance is smaller?
@@ -88,21 +81,15 @@ DoubleNode<T>* CircularList<T>::find(int index)
    //set min_dist to the smaller value, keeping the sign
 
    int dist1 = abs(dist_prev - index); //prev values
-   cout << "dist1: " << dist1 << endl;
    int dist2 = abs(dist_next - index); //next values
-   cout << "dist2: " << dist2 << endl;
    
    if (dist1 < dist2) // prev distance is smaller
    {
       min_dist = dist1;
-      cout << "negative: " << min_dist << endl;
-      cout << endl;
    }
    else // next distance is smaller
    {
       min_dist = dist2;
-      cout << "positive: " << min_dist << endl;
-      cout << endl;
    }
 
    if (min_dist < 0)  //negative distance means use prev links, counterclockwise
@@ -122,7 +109,6 @@ DoubleNode<T>* CircularList<T>::find(int index)
       }
    }
    
-   cout << "size: " << sze << endl;
    return where;
 }
 
@@ -162,11 +148,12 @@ void CircularList<T>::remove(int index)
    //DO THIS
    //remember to move loc and loc_pos to the location of the removal
    //remember to delete the node after it has been removed from the list
+
+   DoubleNode<T>* prev = find(index);
    
    if (index >= 1 && index <= sze) 
    {
       DoubleNode<T>* where = loc;
-      DoubleNode<T>* prev = find(index);
 
       if (sze == 1) //special case
       {
