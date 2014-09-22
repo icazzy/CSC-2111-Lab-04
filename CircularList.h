@@ -68,18 +68,18 @@ DoubleNode<T>* CircularList<T>::find(int index)
    {
         cout << "index: " << index << endl;
         cout << "loc_pos: " << loc_pos << endl;
-        dist_next = (sze - loc_pos + index);  //distance without the bridge (next refs, positive)
+        dist_next = (sze - (loc_pos + index));  //distance without the bridge (next refs, positive)
         cout << "dist_next (if): " << dist_next << endl;
-        dist_prev = (sze + loc_pos - index);  //distance using the bridge (prev refs, negative)
+        dist_prev = (sze - (loc_pos - index));  //distance using the bridge (prev refs, negative)
         cout << "dist_prev (if): " << dist_prev << endl;
    }
    else
    {
         cout << "index: " << index << endl;
         cout << "loc_pos: " << loc_pos << endl;
-        dist_prev = (sze + loc_pos - index);  //distance without the bridge (prev refs, negative)
+        dist_prev = (sze - (loc_pos - index));  //distance without the bridge (prev refs, negative)
         cout << "dist_next (else): " << dist_next << endl;
-        dist_next = (sze - loc_pos + index);  //distance using the bridge (next refs, positive)
+        dist_next = (sze - (loc_pos + index));  //distance using the bridge (next refs, positive)
         cout << "dist_prev (else): " << dist_prev << endl;
    }
 
@@ -121,7 +121,8 @@ DoubleNode<T>* CircularList<T>::find(int index)
          animateMovement(true, where);
       }
    }
-
+   
+   cout << "size: " << sze << endl;
    return where;
 }
 
